@@ -30,6 +30,15 @@ $ultimosCurriculos = $db->fetchAll(
 );
 
 $totalNotifContatos = $db->count('notificacao_contatos', 'ativo = 1');
+
+// Lembretes para hoje e atrasados
+$hoje = date('Y-m-d');
+$lembretesHoje = $db->fetchAll(
+    "SELECT * FROM lembretes WHERE status = 'pendente' AND data_lembrete <= ? ORDER BY data_lembrete ASC, hora_lembrete ASC LIMIT 5",
+    [$hoje]
+);
+$totalLembretesAtrasados = $db->count('lembretes', "status = 'pendente' AND data_lembrete < ?", [$hoje]);
+$totalLembretesHoje = $db->count('lembretes', "status = 'pendente' AND data_lembrete = ?", [$hoje]);
 ?>
 
 <div class="page-header">
@@ -115,6 +124,44 @@ $totalNotifContatos = $db->count('notificacao_contatos', 'ativo = 1');
 </div>
 
 <div class="row g-3">
+    <!-- Lembretes do Dia -->
+    <?php if (!empty($lembretesHoje)): ?>
+    <div class="col-12">
+        <div class="card" style="border-left: 4px solid var(--warning)">
+            <div class="card-body">
+                <h6 class="section-title">
+                    <i class="bi bi-bell-fill text-warning"></i> Lembretes
+                    <?php if ($totalLembretesAtrasados > 0): ?>
+                        <span class="badge bg-danger ms-2"><?= $totalLembretesAtrasados ?> atrasado(s)</span>
+                    <?php endif; ?>
+                    <?php if ($totalLembretesHoje > 0): ?>
+                        <span class="badge bg-warning text-dark ms-2"><?= $totalLembretesHoje ?> para hoje</span>
+                    <?php endif; ?>
+                </h6>
+                <div class="table-responsive">
+                    <table class="table table-sm mb-0">
+                        <thead><tr><th>Título</th><th>Tipo</th><th>Data</th><th>Prioridade</th><th></th></tr></thead>
+                        <tbody>
+                        <?php foreach ($lembretesHoje as $lem):
+                            $isAtrasado = $lem['data_lembrete'] < $hoje;
+                        ?>
+                            <tr class="<?= $isAtrasado ? 'table-danger' : 'table-warning' ?>">
+                                <td><strong><?= e($lem['titulo']) ?></strong></td>
+                                <td><span class="badge bg-<?= $lem['tipo'] === 'pagamento' ? 'success' : ($lem['tipo'] === 'servico' ? 'primary' : 'secondary') ?>"><?= ucfirst($lem['tipo']) ?></span></td>
+                                <td><?= formatDate($lem['data_lembrete']) ?><?php if ($lem['hora_lembrete']): ?> <?= date('H:i', strtotime($lem['hora_lembrete'])) ?><?php endif; ?></td>
+                                <td><span class="badge bg-<?= $lem['prioridade'] === 'urgente' ? 'danger' : ($lem['prioridade'] === 'alta' ? 'warning' : 'info') ?>"><?= ucfirst($lem['prioridade']) ?></span></td>
+                                <td><a href="index.php?module=agenda&action=concluir&id=<?= $lem['id'] ?>" class="btn btn-sm btn-outline-success" title="Concluir"><i class="bi bi-check-circle"></i></a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="index.php?module=agenda" class="btn btn-sm btn-outline-warning mt-2">Ver todos os lembretes</a>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+
     <div class="col-lg-6">
         <div class="card">
             <div class="card-body">

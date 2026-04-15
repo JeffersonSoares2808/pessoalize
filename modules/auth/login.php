@@ -61,17 +61,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="card-body">
                 <!-- Logo -->
                 <div class="login-logo-wrapper">
-                    <svg class="login-logo-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="80" height="80" fill="none">
+                    <svg class="login-logo-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="80" height="88" fill="none">
                         <defs>
-                            <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="100%" style="stop-color:#8b5cf6"/></linearGradient>
-                            <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#818cf8"/><stop offset="100%" style="stop-color:#a78bfa"/></linearGradient>
+                            <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#3DBBA0"/><stop offset="100%" style="stop-color:#2A9D8F"/></linearGradient>
+                            <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#9B8EC4"/><stop offset="100%" style="stop-color:#7B6FA0"/></linearGradient>
                         </defs>
-                        <rect x="20" y="20" width="160" height="160" rx="40" fill="url(#lg1)"/>
-                        <rect x="35" y="35" width="130" height="130" rx="30" fill="url(#lg2)" opacity="0.3"/>
-                        <circle cx="100" cy="72" r="22" fill="white"/>
-                        <path d="M60 135 C60 108 80 95 100 95 C120 95 140 108 140 135" fill="white"/>
-                        <circle cx="145" cy="55" r="8" fill="white" opacity="0.4"/>
-                        <circle cx="55" cy="55" r="5" fill="white" opacity="0.3"/>
+                        <!-- Outer P shape - teal circuit lines -->
+                        <path d="M70 200 L70 40 C70 40 70 10 100 10 C140 10 170 30 170 70 C170 110 140 130 100 130 L70 130" stroke="url(#lg1)" stroke-width="12" fill="none" stroke-linecap="round"/>
+                        <path d="M85 185 L85 55 C85 55 85 28 108 28 C140 28 155 45 155 70 C155 95 140 112 108 112 L85 112" stroke="url(#lg1)" stroke-width="8" fill="none" stroke-linecap="round"/>
+                        <!-- Inner accent - purple -->
+                        <path d="M100 170 L100 70 C100 70 100 48 118 48 C138 48 145 60 145 72 C145 84 138 95 118 95 L100 95" stroke="url(#lg2)" stroke-width="7" fill="none" stroke-linecap="round"/>
+                        <!-- Circuit dots -->
+                        <circle cx="70" cy="200" r="6" fill="#3DBBA0"/>
+                        <circle cx="170" cy="70" r="5" fill="#3DBBA0"/>
+                        <circle cx="100" cy="10" r="4" fill="#3DBBA0"/>
+                        <circle cx="145" cy="72" r="4" fill="#9B8EC4"/>
+                        <circle cx="100" cy="170" r="3.5" fill="#9B8EC4"/>
+                        <circle cx="85" cy="55" r="3" fill="#3DBBA0" opacity="0.7"/>
                     </svg>
                 </div>
                 <h1 class="login-title"><?= e(APP_NAME) ?></h1>
