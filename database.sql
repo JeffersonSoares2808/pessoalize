@@ -1,8 +1,12 @@
 -- Pessoalize - Sistema de Gestão de Departamento Pessoal, RH e Financeiro
 -- Banco de dados MySQL
+--
+-- IMPORTANTE: Antes de importar este arquivo, crie o banco de dados e selecione-o.
+-- No phpMyAdmin (Hostinger), selecione o banco de dados no painel lateral antes de importar.
+-- Exemplo local: CREATE DATABASE pessoalize CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE DATABASE IF NOT EXISTS pessoalize CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE pessoalize;
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
 -- Tabela de usuários do sistema
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -241,3 +245,5 @@ INSERT INTO categorias_financeiras (nome, tipo, descricao) VALUES
 ('Serviços Prestados', 'receita', 'Receita de serviços'),
 ('Vendas', 'receita', 'Receita de vendas'),
 ('Outros', 'despesa', 'Outras despesas');
+
+SET FOREIGN_KEY_CHECKS = 1;
