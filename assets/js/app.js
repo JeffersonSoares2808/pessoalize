@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
 
-    // ── Auto-fechar alertas ────────────────────────────────────
-    document.querySelectorAll('.alert-dismissible').forEach(function(alert) {
+    // ── Auto-fechar toast notification ───────────────────────────
+    var flashToast = document.getElementById('flashToast');
+    if (flashToast) {
         setTimeout(function() {
-            var bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
-            bsAlert.close();
-        }, 5000);
-    });
+            closeFlashToast();
+        }, 8000);
+    }
 
     // ── Máscara CPF ────────────────────────────────────────────
     document.querySelectorAll('.mask-cpf').forEach(function(input) {
@@ -111,6 +111,17 @@ function updateThemeIcon(theme) {
             ? '<i class="bi bi-sun-fill"></i>'
             : '<i class="bi bi-moon-stars-fill"></i>';
     }
+}
+
+// ── Close Flash Toast ──────────────────────────────────────────
+function closeFlashToast() {
+    var toast = document.getElementById('flashToast');
+    if (!toast || toast.classList.contains('toast-hiding')) return;
+    toast.classList.add('toast-hiding');
+    setTimeout(function() {
+        var container = document.getElementById('toastContainer');
+        if (container) container.remove();
+    }, 400);
 }
 
 // ── IA Assistant ────────────────────────────────────────────────
