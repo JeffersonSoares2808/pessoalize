@@ -49,6 +49,9 @@ $totalLog = $db->count('notificacao_log');
 <div class="page-header">
     <h4><i class="bi bi-bell-fill"></i> Notificações WhatsApp & SMS</h4>
     <div class="d-flex gap-2">
+        <a href="index.php?module=notificacoes&action=disparar" class="btn btn-outline-warning btn-sm">
+            <i class="bi bi-broadcast"></i> Disparar Avisos
+        </a>
         <a href="index.php?module=notificacoes&action=log" class="btn btn-outline-secondary btn-sm">
             <i class="bi bi-clock-history"></i> Histórico
         </a>

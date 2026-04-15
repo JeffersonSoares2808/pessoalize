@@ -56,6 +56,10 @@ class AIHelper {
             'temperature' => AI_TEMPERATURE,
         ];
 
+        if (!function_exists('curl_init')) {
+            return ['success' => false, 'resposta' => '', 'error' => 'Extensão cURL não está habilitada no servidor. Habilite no php.ini.'];
+        }
+
         $ch = curl_init(AI_API_URL);
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
@@ -67,12 +71,38 @@ class AIHelper {
             CURLOPT_POSTFIELDS => json_encode($payload),
             CURLOPT_TIMEOUT => 30,
             CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_SSL_VERIFYPEER => true,
+            CURLOPT_SSL_VERIFYHOST => 2,
         ]);
 
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $curlError = curl_error($ch);
         curl_close($ch);
+
+        // Retry without strict SSL if certificate verification fails (common on shared hosting)
+        if ($curlError && strpos($curlError, 'SSL') !== false) {
+            $ch = curl_init(AI_API_URL);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => true,
+                CURLOPT_HTTPHEADER => [
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' . AI_API_KEY,
+                ],
+                CURLOPT_POSTFIELDS => json_encode($payload),
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_CONNECTTIMEOUT => 10,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => 0,
+            ]);
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlError = curl_error($ch);
+            curl_close($ch);
+        }
 
         if ($curlError) {
             return ['success' => false, 'resposta' => '', 'error' => 'Erro de conexão com a API: ' . $curlError];
@@ -83,6 +113,13 @@ class AIHelper {
             $decoded = json_decode($response, true);
             if (isset($decoded['error']['message'])) {
                 $errorMsg .= ': ' . $decoded['error']['message'];
+            }
+            if ($httpCode === 401) {
+                $errorMsg = 'Chave da API inválida ou expirada. Verifique sua GROQ_API_KEY em config.php ou gere uma nova em https://console.groq.com/keys';
+            } elseif ($httpCode === 429) {
+                $errorMsg = 'Limite de requisições atingido. Aguarde alguns instantes e tente novamente.';
+            } elseif ($httpCode === 503 || $httpCode === 502) {
+                $errorMsg = 'Serviço da API temporariamente indisponível. Tente novamente em alguns minutos.';
             }
             return ['success' => false, 'resposta' => '', 'error' => $errorMsg];
         }

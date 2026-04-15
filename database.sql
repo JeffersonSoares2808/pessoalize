@@ -228,6 +228,19 @@ CREATE TABLE IF NOT EXISTS ia_logs (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
+-- Tabela de notificações internas do sistema (avisos automáticos)
+CREATE TABLE IF NOT EXISTS notificacoes_sistema (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo ENUM('vencimentos','pagamentos','avisos','rh','aniversarios') NOT NULL,
+    titulo VARCHAR(200) NOT NULL,
+    mensagem TEXT,
+    nivel ENUM('info','success','warning','danger','primary') DEFAULT 'info',
+    referencia_id INT,
+    referencia_tipo VARCHAR(50),
+    lida TINYINT(1) DEFAULT 0,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
 -- Dados iniciais
 
 -- Usuário admin padrão (senha: admin123)
