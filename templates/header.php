@@ -158,11 +158,23 @@ $notifRecentes = $notifCount > 0 ? NotificationDispatcher::getNotificacoesNaoLid
         </div>
     </nav>
 
+    <?php if ($flash): ?>
+    <div class="toast-container-custom" id="toastContainer">
+        <div class="toast-notification toast-<?= $flash['type'] === 'error' ? 'error' : ($flash['type'] === 'success' ? 'success' : 'info') ?>" id="flashToast" style="position:relative;overflow:hidden;">
+            <span class="toast-icon">
+                <?php if ($flash['type'] === 'success'): ?>
+                    <i class="bi bi-check-circle-fill"></i>
+                <?php elseif ($flash['type'] === 'error'): ?>
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                <?php else: ?>
+                    <i class="bi bi-info-circle-fill"></i>
+                <?php endif; ?>
+            </span>
+            <span class="toast-body"><?= e($flash['message']) ?></span>
+            <button class="toast-close" onclick="closeFlashToast()" title="Fechar">&times;</button>
+            <div class="toast-progress"></div>
+        </div>
+    </div>
+    <?php endif; ?>
+
     <div class="container-fluid mt-4 px-3 px-lg-4">
-        <?php if ($flash): ?>
-            <div class="alert alert-<?= $flash['type'] === 'success' ? 'success' : ($flash['type'] === 'error' ? 'danger' : 'info') ?> alert-dismissible fade show animate-in" role="alert">
-                <i class="bi bi-<?= $flash['type'] === 'success' ? 'check-circle-fill' : ($flash['type'] === 'error' ? 'exclamation-triangle-fill' : 'info-circle-fill') ?>"></i>
-                <?= e($flash['message']) ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
