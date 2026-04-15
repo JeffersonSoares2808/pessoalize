@@ -226,7 +226,6 @@ $tipoLabels = [
                             <td><span class="badge bg-<?= $prio['color'] ?>"><?= $prio['label'] ?></span></td>
                             <td>
                                 <?= $recorrenciaLabels[$lem['recorrencia']] ?? '-' ?>
-                                <?= $recorrenciaLabels[$lem['recorrencia']] ?? '-' ?>
                             </td>
                             <td>
                                 <?php if ($lem['funcionario_nome']): ?>

@@ -53,12 +53,8 @@ function isLoggedIn() {
         $timeout = defined('SESSION_TIMEOUT') ? SESSION_TIMEOUT : 900;
         if (time() - $_SESSION['last_activity'] > $timeout) {
             // Sessão expirada por inatividade
-            session_unset();
+            $_SESSION = [];
             session_destroy();
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
-            $_SESSION['flash'] = ['type' => 'error', 'message' => 'Sessão expirada por inatividade. Faça login novamente.'];
             return false;
         }
     }
