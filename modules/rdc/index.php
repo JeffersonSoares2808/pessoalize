@@ -50,9 +50,28 @@ $normas = $db->fetchAll(
 // Estatísticas gerais
 $totalNormas = $db->count('rdc_normas', "status = 'vigente'");
 $totalItens = $db->count('rdc_itens_conformidade', 'ativo = 1');
-$totalConformes = $db->fetch("SELECT COUNT(*) as t FROM rdc_verificacoes WHERE status = 'conforme'")['t'];
-$totalNaoConformes = $db->fetch("SELECT COUNT(*) as t FROM rdc_verificacoes WHERE status = 'nao_conforme'")['t'];
-$totalPendentes = $totalItens - $db->fetch("SELECT COUNT(DISTINCT item_id) as t FROM rdc_verificacoes")['t'];
+$totalConformes = $db->fetch(
+    "SELECT COUNT(DISTINCT v.item_id) as t FROM rdc_verificacoes v
+     JOIN rdc_itens_conformidade i ON v.item_id = i.id
+     WHERE i.ativo = 1
+     AND v.id = (SELECT MAX(v2.id) FROM rdc_verificacoes v2 WHERE v2.item_id = v.item_id)
+     AND v.status = 'conforme'"
+)['t'];
+$totalNaoConformes = $db->fetch(
+    "SELECT COUNT(DISTINCT v.item_id) as t FROM rdc_verificacoes v
+     JOIN rdc_itens_conformidade i ON v.item_id = i.id
+     WHERE i.ativo = 1
+     AND v.id = (SELECT MAX(v2.id) FROM rdc_verificacoes v2 WHERE v2.item_id = v.item_id)
+     AND v.status = 'nao_conforme'"
+)['t'];
+$totalVerificados = $db->fetch(
+    "SELECT COUNT(DISTINCT v.item_id) as t FROM rdc_verificacoes v
+     JOIN rdc_itens_conformidade i ON v.item_id = i.id
+     WHERE i.ativo = 1
+     AND v.id = (SELECT MAX(v2.id) FROM rdc_verificacoes v2 WHERE v2.item_id = v.item_id)
+     AND v.status NOT IN ('pendente')"
+)['t'];
+$totalPendentes = $totalItens - $totalVerificados;
 $percentConformidade = $totalItens > 0 ? round(($totalConformes / $totalItens) * 100) : 0;
 
 // Categorias para filtro

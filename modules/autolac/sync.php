@@ -37,22 +37,36 @@ try {
         PDO::ATTR_TIMEOUT => 30,
     ]);
 
-    // Montar query baseada nos campos configurados
-    $tabela = preg_replace('/[^a-zA-Z0-9_]/', '', $config['tabela_pagamentos']);
-    $campoValor = preg_replace('/[^a-zA-Z0-9_]/', '', $config['campo_valor']);
-    $campoData = preg_replace('/[^a-zA-Z0-9_]/', '', $config['campo_data']);
-    $campoDesc = preg_replace('/[^a-zA-Z0-9_]/', '', $config['campo_descricao']);
-    $campoCliente = preg_replace('/[^a-zA-Z0-9_]/', '', $config['campo_cliente']);
-    $campoStatus = preg_replace('/[^a-zA-Z0-9_]/', '', $config['campo_status']);
-    $campoDoc = preg_replace('/[^a-zA-Z0-9_]/', '', $config['campo_documento']);
+    // Montar query baseada nos campos configurados (whitelist: apenas caracteres alfanuméricos e underscore)
+    $allowedPattern = '/^[a-zA-Z0-9_]+$/';
+    $fieldNames = [
+        'tabela' => $config['tabela_pagamentos'],
+        'valor' => $config['campo_valor'],
+        'data' => $config['campo_data'],
+        'descricao' => $config['campo_descricao'],
+        'cliente' => $config['campo_cliente'],
+        'status' => $config['campo_status'],
+        'documento' => $config['campo_documento'],
+    ];
+    foreach ($fieldNames as $label => $val) {
+        if (!preg_match($allowedPattern, $val)) {
+            throw new Exception("Nome de campo inválido para '{$label}': " . $val);
+        }
+    }
+    $tabela = $fieldNames['tabela'];
+    $campoValor = $fieldNames['valor'];
+    $campoData = $fieldNames['data'];
+    $campoDesc = $fieldNames['descricao'];
+    $campoCliente = $fieldNames['cliente'];
+    $campoStatus = $fieldNames['status'];
+    $campoDoc = $fieldNames['documento'];
 
     // Buscar ID do último registro importado para importar apenas novos
     $ultimoImportado = $db->fetch("SELECT MAX(autolac_id) as ultimo FROM autolac_pagamentos");
     $ultimoId = $ultimoImportado['ultimo'] ?? '0';
 
-    // Query: buscar todos os registros da tabela de pagamentos
-    // Usa o ID nativo da tabela do Autolac (geralmente `id`) para rastrear duplicatas
-    $sql = "SELECT * FROM {$tabela} ORDER BY id ASC";
+    // Query: buscar apenas os campos mapeados da tabela de pagamentos
+    $sql = "SELECT id, {$campoValor}, {$campoData}, {$campoDesc}, {$campoCliente}, {$campoStatus}, {$campoDoc} FROM {$tabela} ORDER BY id ASC";
     $stmt = $autolacPdo->prepare($sql);
     $stmt->execute();
     $registros = $stmt->fetchAll();
@@ -80,15 +94,8 @@ try {
 
         // Formatar data se necessário
         if ($dataPag && !preg_match('/^\d{4}-\d{2}-\d{2}/', $dataPag)) {
-            $dataPag = date('Y-m-d', strtotime($dataPag));
-        }
-
-        // Coletar dados extras (todos os campos não mapeados)
-        $dadosExtras = [];
-        foreach ($reg as $key => $val) {
-            if (!in_array($key, ['id', $campoValor, $campoData, $campoDesc, $campoCliente, $campoStatus, $campoDoc])) {
-                $dadosExtras[$key] = $val;
-            }
+            $parsed = strtotime($dataPag);
+            $dataPag = $parsed !== false ? date('Y-m-d', $parsed) : null;
         }
 
         $db->insert('autolac_pagamentos', [
@@ -99,7 +106,6 @@ try {
             'data_pagamento' => $dataPag ?: null,
             'status' => 'importado',
             'numero_documento' => mb_substr($documento, 0, 100),
-            'dados_extras' => !empty($dadosExtras) ? json_encode($dadosExtras, JSON_UNESCAPED_UNICODE) : null,
         ]);
 
         $importados++;
