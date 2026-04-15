@@ -1,3 +1,6 @@
+# Serve SVG files with correct MIME type
+AddType image/svg+xml .svg .svgz
+
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
