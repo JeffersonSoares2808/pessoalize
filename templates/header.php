@@ -47,6 +47,11 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link <?= ($module ?? '') === 'treinamentos' ? 'active' : '' ?>" href="index.php?module=treinamentos">
+                            <i class="bi bi-mortarboard-fill"></i> Treinamentos
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link <?= ($module ?? '') === 'notificacoes' ? 'active' : '' ?>" href="index.php?module=notificacoes">
                             <i class="bi bi-bell-fill"></i> Notificações
                         </a>

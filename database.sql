@@ -177,6 +177,43 @@ CREATE TABLE IF NOT EXISTS notificacao_log (
     FOREIGN KEY (contato_id) REFERENCES notificacao_contatos(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
+-- Tabela de treinamentos
+CREATE TABLE IF NOT EXISTS treinamentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(200) NOT NULL,
+    descricao TEXT,
+    instrutor VARCHAR(150),
+    instituicao VARCHAR(200),
+    carga_horaria DECIMAL(6,1) NOT NULL DEFAULT 0.0,
+    data_inicio DATE,
+    data_fim DATE,
+    local_treinamento VARCHAR(200),
+    modalidade ENUM('presencial','online','hibrido') DEFAULT 'presencial',
+    status ENUM('planejado','em_andamento','concluido','cancelado') DEFAULT 'planejado',
+    observacoes TEXT,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Tabela de participantes de treinamento
+CREATE TABLE IF NOT EXISTS treinamento_participantes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    treinamento_id INT NOT NULL,
+    funcionario_id INT NOT NULL,
+    status ENUM('inscrito','em_andamento','concluido','reprovado','desistente') DEFAULT 'inscrito',
+    nota DECIMAL(5,2),
+    certificado_arquivo VARCHAR(255),
+    certificado_nome_original VARCHAR(255),
+    data_inscricao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    data_conclusao DATE,
+    observacoes TEXT,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (treinamento_id) REFERENCES treinamentos(id) ON DELETE CASCADE,
+    FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_participante (treinamento_id, funcionario_id)
+) ENGINE=InnoDB;
+
 -- Dados iniciais
 
 -- Usuário admin padrão (senha: admin123)
