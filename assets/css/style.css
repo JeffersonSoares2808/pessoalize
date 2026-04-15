@@ -138,13 +138,25 @@ a:hover { color: var(--primary-dark); }
 .navbar-logo {
     width: 36px; height: 36px;
     max-width: 36px; max-height: 36px;
-    object-fit: contain; flex-shrink: 0;
+    flex-shrink: 0;
     filter: brightness(1.2) drop-shadow(0 2px 8px rgba(99, 102, 241, 0.3));
     transition: transform 0.3s ease;
 }
 
 .navbar-logo:hover {
     transform: scale(1.1) rotate(-5deg);
+}
+
+.login-logo-img {
+    width: 80px;
+    height: 80px;
+    max-width: 80px; max-height: 80px;
+    filter: drop-shadow(0 8px 24px rgba(99, 102, 241, 0.35));
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.login-logo-img:hover {
+    transform: scale(1.08) rotate(-3deg);
 }
 
 .navbar-pessoalize .nav-link {
@@ -391,23 +403,10 @@ a:hover { color: var(--primary-dark); }
     padding: 2.5rem 2.5rem 2rem;
 }
 
-/* Logo */
+/* Logo (defined with navbar-logo above) */
 .login-logo-wrapper {
     text-align: center;
     margin-bottom: 0.75rem;
-}
-
-.login-logo-img {
-    width: 80px;
-    height: 80px;
-    max-width: 80px; max-height: 80px;
-    object-fit: contain;
-    filter: drop-shadow(0 8px 24px rgba(99, 102, 241, 0.35));
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.login-logo-img:hover {
-    transform: scale(1.08) rotate(-3deg);
 }
 
 .login-title {
@@ -689,3 +688,367 @@ footer { color: var(--text-muted); font-size: 0.8rem; padding: 1.5rem 0; }
     .finance-summary { grid-template-columns: 1fr; }
     .page-header { flex-direction: column; align-items: flex-start; }
 }
+
+/* ============================================================
+   IA Assistant Styles
+   ============================================================ */
+
+/* ── IA Chat Card ──────────────────────────────────────────── */
+.ia-chat-card {
+    border: none;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.ia-chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: var(--bg-navbar);
+    color: white;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.ia-avatar {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--primary-light), var(--accent));
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; color: white;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.ia-avatar-sm {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--primary-light), var(--accent));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; color: white;
+    flex-shrink: 0;
+}
+
+.ia-status-badge {
+    font-size: 0.72rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.35rem;
+    color: var(--success);
+}
+.ia-status-badge i { font-size: 0.5rem; }
+
+/* ── Chat Messages ─────────────────────────────────────────── */
+.ia-chat-messages {
+    padding: 1.5rem;
+    min-height: 400px;
+    max-height: 500px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: var(--bg-body);
+}
+
+.ia-message {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 85%;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+.ia-message-user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.ia-message-bot {
+    align-self: flex-start;
+}
+
+.ia-message-avatar {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: white;
+    flex-shrink: 0;
+}
+
+.ia-message-avatar-sm {
+    width: 24px; height: 24px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; color: white;
+    flex-shrink: 0;
+}
+
+.ia-message-content {
+    padding: 0.85rem 1.15rem;
+    border-radius: var(--radius);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    word-break: break-word;
+}
+
+.ia-message-bot .ia-message-content {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    border-top-left-radius: 4px;
+}
+
+.ia-message-user .ia-message-content {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border-top-right-radius: 4px;
+}
+
+.ia-message-content ul {
+    padding-left: 1.25rem;
+    margin: 0.5rem 0;
+}
+.ia-message-content li {
+    margin-bottom: 0.25rem;
+}
+.ia-message-content p {
+    margin-bottom: 0.5rem;
+}
+.ia-message-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* ── Chat Input ────────────────────────────────────────────── */
+.ia-chat-input {
+    padding: 1rem 1.5rem;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border-light);
+}
+
+.ia-chat-input .form-control {
+    border-radius: var(--radius) 0 0 var(--radius);
+    border-right: none;
+    padding: 0.75rem 1rem;
+}
+
+.ia-chat-input .btn {
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 0.75rem 1.25rem;
+}
+
+/* ── Typing Indicator ──────────────────────────────────────── */
+.ia-typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0.75rem 1rem !important;
+}
+
+.ia-typing-dot {
+    width: 8px; height: 8px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    animation: iaTypingBounce 1.4s infinite ease-in-out both;
+}
+.ia-typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.ia-typing-dot:nth-child(2) { animation-delay: -0.16s; }
+.ia-typing-dot:nth-child(3) { animation-delay: 0s; }
+
+@keyframes iaTypingBounce {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Quick Suggestions ─────────────────────────────────────── */
+.ia-sugestoes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.ia-sugestao-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 0.85rem;
+    background: var(--bg-body);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+    width: 100%;
+}
+.ia-sugestao-btn i {
+    color: var(--primary);
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+.ia-sugestao-btn:hover {
+    background: var(--primary-glow);
+    border-color: var(--primary);
+    transform: translateX(4px);
+}
+
+/* ── Info List ─────────────────────────────────────────────── */
+.ia-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.ia-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+}
+.ia-info-item i {
+    font-size: 1.15rem;
+    width: 24px;
+    text-align: center;
+}
+
+/* ── Tips List ─────────────────────────────────────────────── */
+.ia-tips-list {
+    padding-left: 1.25rem;
+    margin: 0;
+}
+.ia-tips-list li {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.35rem;
+    line-height: 1.5;
+}
+
+/* ── Floating IA Button ────────────────────────────────────── */
+#iaFloatingWidget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1050;
+}
+
+.ia-floating-btn {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ia-floating-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+}
+.ia-floating-btn.active {
+    transform: rotate(180deg) scale(0.9);
+}
+
+.ia-floating-pulse {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    animation: iaPulse 2s infinite;
+    pointer-events: none;
+}
+
+@keyframes iaPulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 0; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+/* ── Widget Panel ──────────────────────────────────────────── */
+.ia-widget-panel {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 380px;
+    max-height: 520px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl), 0 0 0 1px rgba(0,0,0,0.05);
+    flex-direction: column;
+    overflow: hidden;
+    animation: iaWidgetIn 0.3s ease-out;
+}
+
+@keyframes iaWidgetIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.ia-widget-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: var(--bg-navbar);
+    color: white;
+}
+
+.ia-widget-messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: 350px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: var(--bg-body);
+}
+
+.ia-widget-messages .ia-message {
+    max-width: 90%;
+}
+
+.ia-widget-messages .ia-message-content {
+    font-size: 0.82rem;
+    padding: 0.65rem 0.85rem;
+}
+
+.ia-widget-input {
+    padding: 0.75rem;
+    border-top: 1px solid var(--border-light);
+    background: var(--bg-card);
+}
+
+/* ── Print hide IA ─────────────────────────────────────────── */
+@media print {
+    #iaFloatingWidget { display: none !important; }
+}
+
+/* ── IA Responsive ─────────────────────────────────────────── */
+@media (max-width: 576px) {
+    .ia-widget-panel {
+        width: calc(100vw - 32px);
+        right: -8px;
+    }
+    .ia-chat-messages {
+        min-height: 300px;
+        max-height: 350px;
+    }
+    .ia-message {
+        max-width: 95%;
+    }
+}
+
+/* ── Dark mode IA adjustments ──────────────────────────────── */
+[data-theme="dark"] .ia-chat-messages { background: var(--bg-body); }
+[data-theme="dark"] .ia-message-bot .ia-message-content { background: var(--bg-card); border-color: var(--border); }
+[data-theme="dark"] .ia-sugestao-btn { background: var(--bg-input); border-color: var(--border); color: var(--text-primary); }
+[data-theme="dark"] .ia-widget-panel { background: var(--bg-card); border: 1px solid var(--border); }
+[data-theme="dark"] .ia-widget-messages { background: var(--bg-body); }
+[data-theme="dark"] .ia-widget-input { background: var(--bg-card); border-color: var(--border); }

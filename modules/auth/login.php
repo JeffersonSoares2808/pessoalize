@@ -61,7 +61,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="card-body">
                 <!-- Logo -->
                 <div class="login-logo-wrapper">
-                    <img src="assets/img/logo.svg" alt="<?= e(APP_NAME) ?>" class="login-logo-img">
+                    <svg class="login-logo-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="80" height="80" fill="none">
+                        <defs>
+                            <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="100%" style="stop-color:#8b5cf6"/></linearGradient>
+                            <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#818cf8"/><stop offset="100%" style="stop-color:#a78bfa"/></linearGradient>
+                        </defs>
+                        <rect x="20" y="20" width="160" height="160" rx="40" fill="url(#lg1)"/>
+                        <rect x="35" y="35" width="130" height="130" rx="30" fill="url(#lg2)" opacity="0.3"/>
+                        <circle cx="100" cy="72" r="22" fill="white"/>
+                        <path d="M60 135 C60 108 80 95 100 95 C120 95 140 108 140 135" fill="white"/>
+                        <circle cx="145" cy="55" r="8" fill="white" opacity="0.4"/>
+                        <circle cx="55" cy="55" r="5" fill="white" opacity="0.3"/>
+                    </svg>
                 </div>
                 <h1 class="login-title"><?= e(APP_NAME) ?></h1>
                 <p class="login-subtitle">Sistema de Gestão de Departamento Pessoal</p>
