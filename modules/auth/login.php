@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="card login-card">
             <div class="card-body">
                 <div class="login-logo">
-                    <i class="bi bi-people-fill" style="color: #2bb5a0;"></i><br>
+                    <div class="brand-icon-lg"><i class="bi bi-people-fill"></i></div><br>
                     <?= e(APP_NAME) ?>
                 </div>
                 <p class="text-center text-muted mb-4">Sistema de Gestão de Departamento Pessoal</p>

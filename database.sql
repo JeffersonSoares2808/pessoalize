@@ -151,6 +151,32 @@ CREATE TABLE IF NOT EXISTS contas (
     FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
+-- Tabela de contatos para notificações (WhatsApp e SMS)
+CREATE TABLE IF NOT EXISTS notificacao_contatos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    funcionario_id INT NOT NULL,
+    whatsapp VARCHAR(20),
+    receber_whatsapp TINYINT(1) DEFAULT 1,
+    receber_sms TINYINT(1) DEFAULT 1,
+    tipos_notificacao SET('vencimentos','pagamentos','avisos','rh','aniversarios') DEFAULT 'vencimentos,avisos',
+    ativo TINYINT(1) DEFAULT 1,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- Tabela de log de notificações enviadas
+CREATE TABLE IF NOT EXISTS notificacao_log (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    contato_id INT,
+    tipo ENUM('whatsapp','sms') NOT NULL,
+    assunto VARCHAR(200),
+    mensagem TEXT,
+    status ENUM('enviado','falha','pendente') DEFAULT 'pendente',
+    enviado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (contato_id) REFERENCES notificacao_contatos(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
 -- Dados iniciais
 
 -- Usuário admin padrão (senha: admin123)

@@ -28,56 +28,57 @@ $proximasContas = $db->fetchAll(
 $ultimosCurriculos = $db->fetchAll(
     "SELECT * FROM curriculos ORDER BY criado_em DESC LIMIT 5"
 );
+
+$totalNotifContatos = $db->count('notificacao_contatos', 'ativo = 1');
 ?>
 
-<div class="row mb-4">
-    <div class="col-12">
-        <h4 class="fw-bold"><i class="bi bi-speedometer2"></i> Dashboard</h4>
-    </div>
+<div class="page-header">
+    <h4><i class="bi bi-grid-1x2-fill"></i> Dashboard</h4>
+    <small class="text-muted">Visão geral do sistema</small>
 </div>
 
 <div class="row g-3 mb-4">
     <div class="col-6 col-lg-3">
-        <div class="card card-dash">
+        <div class="card card-dash card-primary">
             <div class="card-body d-flex align-items-center">
                 <div class="flex-grow-1">
                     <div class="card-title">Funcionários</div>
-                    <div class="card-value text-primary"><?= $totalFuncionarios ?></div>
+                    <div class="card-value" style="color: var(--primary)"><?= $totalFuncionarios ?></div>
                 </div>
-                <i class="bi bi-person-badge icon-big text-primary"></i>
+                <div class="icon-wrap bg-primary-soft"><i class="bi bi-person-badge-fill"></i></div>
             </div>
         </div>
     </div>
     <div class="col-6 col-lg-3">
-        <div class="card card-dash">
+        <div class="card card-dash card-info">
             <div class="card-body d-flex align-items-center">
                 <div class="flex-grow-1">
                     <div class="card-title">Currículos</div>
-                    <div class="card-value text-info"><?= $totalCurriculos ?></div>
+                    <div class="card-value" style="color: var(--info)"><?= $totalCurriculos ?></div>
                 </div>
-                <i class="bi bi-file-earmark-person icon-big text-info"></i>
+                <div class="icon-wrap bg-info-soft"><i class="bi bi-file-earmark-person-fill"></i></div>
             </div>
         </div>
     </div>
     <div class="col-6 col-lg-3">
-        <div class="card card-dash">
+        <div class="card card-dash card-success">
             <div class="card-body d-flex align-items-center">
                 <div class="flex-grow-1">
                     <div class="card-title">Vagas Abertas</div>
-                    <div class="card-value text-success"><?= $vagasAbertas ?></div>
+                    <div class="card-value" style="color: var(--success)"><?= $vagasAbertas ?></div>
                 </div>
-                <i class="bi bi-briefcase icon-big text-success"></i>
+                <div class="icon-wrap bg-success-soft"><i class="bi bi-briefcase-fill"></i></div>
             </div>
         </div>
     </div>
     <div class="col-6 col-lg-3">
-        <div class="card card-dash">
+        <div class="card card-dash card-warning">
             <div class="card-body d-flex align-items-center">
                 <div class="flex-grow-1">
                     <div class="card-title">Contas Pendentes</div>
-                    <div class="card-value text-warning"><?= $contasPendentes['total'] ?></div>
+                    <div class="card-value" style="color: var(--warning)"><?= $contasPendentes['total'] ?></div>
                 </div>
-                <i class="bi bi-exclamation-triangle icon-big text-warning"></i>
+                <div class="icon-wrap bg-warning-soft"><i class="bi bi-exclamation-triangle-fill"></i></div>
             </div>
         </div>
     </div>
@@ -87,24 +88,24 @@ $ultimosCurriculos = $db->fetchAll(
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h6 class="fw-bold mb-3"><i class="bi bi-graph-up"></i> Resumo Financeiro do Mês</h6>
+                <h6 class="section-title"><i class="bi bi-graph-up-arrow"></i> Resumo Financeiro do Mês</h6>
                 <div class="finance-summary">
                     <div class="summary-item receitas">
-                        <small class="text-muted">Recebimentos</small>
-                        <div class="fw-bold text-success"><?= formatMoney($recebimentos['valor']) ?></div>
+                        <small class="text-muted d-block mb-1">Recebimentos</small>
+                        <div class="fw-bold" style="font-size:1.2rem;color:var(--success)"><?= formatMoney($recebimentos['valor']) ?></div>
                     </div>
                     <div class="summary-item despesas">
-                        <small class="text-muted">Pagamentos</small>
-                        <div class="fw-bold text-danger"><?= formatMoney($pagamentos['valor']) ?></div>
+                        <small class="text-muted d-block mb-1">Pagamentos</small>
+                        <div class="fw-bold" style="font-size:1.2rem;color:var(--danger)"><?= formatMoney($pagamentos['valor']) ?></div>
                     </div>
                     <div class="summary-item saldo">
-                        <small class="text-muted">Saldo</small>
-                        <div class="fw-bold text-primary"><?= formatMoney($recebimentos['valor'] - $pagamentos['valor']) ?></div>
+                        <small class="text-muted d-block mb-1">Saldo</small>
+                        <div class="fw-bold" style="font-size:1.2rem;color:var(--primary)"><?= formatMoney($recebimentos['valor'] - $pagamentos['valor']) ?></div>
                     </div>
                     <?php if ($contasVencidas['total'] > 0): ?>
-                    <div class="summary-item" style="background-color:rgba(214,48,49,0.1);border:1px solid rgba(214,48,49,0.3);">
-                        <small class="text-muted">Vencidas</small>
-                        <div class="fw-bold text-danger"><?= $contasVencidas['total'] ?> (<?= formatMoney($contasVencidas['valor']) ?>)</div>
+                    <div class="summary-item" style="background:var(--danger-light);border:1px solid rgba(239,68,68,0.2)">
+                        <small class="text-muted d-block mb-1">Vencidas</small>
+                        <div class="fw-bold" style="font-size:1.2rem;color:var(--danger)"><?= $contasVencidas['total'] ?> (<?= formatMoney($contasVencidas['valor']) ?>)</div>
                     </div>
                     <?php endif; ?>
                 </div>
@@ -117,9 +118,12 @@ $ultimosCurriculos = $db->fetchAll(
     <div class="col-lg-6">
         <div class="card">
             <div class="card-body">
-                <h6 class="fw-bold mb-3"><i class="bi bi-calendar-event"></i> Próximas Contas a Vencer</h6>
+                <h6 class="section-title"><i class="bi bi-calendar-event-fill"></i> Próximas Contas a Vencer</h6>
                 <?php if (empty($proximasContas)): ?>
-                    <p class="text-muted">Nenhuma conta pendente.</p>
+                    <div class="text-center text-muted py-3">
+                        <i class="bi bi-check-circle" style="font-size:2rem;opacity:0.3"></i><br>
+                        Nenhuma conta pendente.
+                    </div>
                 <?php else: ?>
                     <div class="table-responsive">
                         <table class="table table-sm">
@@ -129,7 +133,7 @@ $ultimosCurriculos = $db->fetchAll(
                                 <tr>
                                     <td><?= e($conta['descricao']) ?></td>
                                     <td><?= formatDate($conta['data_vencimento']) ?></td>
-                                    <td><?= formatMoney($conta['valor']) ?></td>
+                                    <td><strong><?= formatMoney($conta['valor']) ?></strong></td>
                                 </tr>
                             <?php endforeach; ?>
                             </tbody>
@@ -143,9 +147,12 @@ $ultimosCurriculos = $db->fetchAll(
     <div class="col-lg-6">
         <div class="card">
             <div class="card-body">
-                <h6 class="fw-bold mb-3"><i class="bi bi-file-earmark-person"></i> Últimos Currículos</h6>
+                <h6 class="section-title"><i class="bi bi-file-earmark-person-fill"></i> Últimos Currículos</h6>
                 <?php if (empty($ultimosCurriculos)): ?>
-                    <p class="text-muted">Nenhum currículo cadastrado.</p>
+                    <div class="text-center text-muted py-3">
+                        <i class="bi bi-inbox" style="font-size:2rem;opacity:0.3"></i><br>
+                        Nenhum currículo cadastrado.
+                    </div>
                 <?php else: ?>
                     <div class="table-responsive">
                         <table class="table table-sm">

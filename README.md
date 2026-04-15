@@ -38,6 +38,30 @@ by JS Sistemas Inteligentes
 - Alerta de contas vencidas
 - Filtros por mês, tipo e status
 
+### 🔔 Notificações WhatsApp & SMS
+- Cadastro de funcionários para receber avisos
+- Seleção de canais: WhatsApp e/ou SMS
+- Tipos de aviso configuráveis (vencimentos, pagamentos, avisos, RH, aniversários)
+- Histórico de notificações enviadas
+- Status por contato (ativo/inativo)
+
+### 📊 Relatórios Completos
+- **Funcionários**: listagem por status, departamento, com totais de folha
+- **Financeiro**: fluxo de caixa, por categoria, resumo detalhado mensal
+- **Folha de Pagamento**: custo por departamento, média salarial, maior/menor salário
+- **Recrutamento**: funil de seleção, vagas abertas/fechadas, taxa de conversão
+- **Aniversariantes**: do mês e próximos 30 dias
+- **Notificações**: contatos ativos, histórico de envios
+- Todos os relatórios são **imprimíveis** (Ctrl+P)
+
+### 🌓 Design Profissional
+- Interface moderna com design system completo
+- Dark Mode (alternância com 1 clique)
+- Animações suaves e transições
+- Tipografia profissional (Google Fonts Inter)
+- Cards com gradientes e efeitos hover
+- 100% Responsivo (mobile-first)
+
 ## 🚀 Instalação (Hostinger)
 
 ### Requisitos
@@ -86,13 +110,15 @@ pessoalize/
 │   ├── funcionarios/        # Gestão de funcionários
 │   ├── curriculos/          # Gestão de currículos
 │   ├── selecao/             # Seleção e recrutamento
-│   └── financeiro/          # Financeiro e boletos
+│   ├── financeiro/          # Financeiro e boletos
+│   ├── notificacoes/        # WhatsApp & SMS
+│   └── relatorios/          # Relatórios completos
 ├── templates/
 │   ├── header.php           # Cabeçalho e menu
 │   └── footer.php           # Rodapé
 ├── assets/
-│   ├── css/style.css        # Estilos
-│   └── js/app.js            # JavaScript
+│   ├── css/style.css        # Design system profissional
+│   └── js/app.js            # JavaScript com dark mode
 ├── uploads/
 │   └── curriculos/          # Arquivos de CV enviados
 ├── database.sql             # Script do banco de dados
@@ -110,5 +136,6 @@ pessoalize/
 ## 💡 Tecnologias
 - **Backend**: PHP puro (sem frameworks pesados)
 - **Banco**: MySQL com PDO
-- **Frontend**: Bootstrap 5 + Bootstrap Icons
+- **Frontend**: Bootstrap 5 + Bootstrap Icons + Google Fonts
+- **Design**: CSS Variables, Dark Mode, Animações CSS
 - **Leve**: Otimizado para hospedagem compartilhada (Hostinger)

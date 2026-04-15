@@ -1,6 +1,6 @@
     </div><!-- /container -->
 
-    <footer class="text-center text-muted py-3 mt-4 border-top">
+    <footer class="text-center py-3 mt-4 border-top">
         <small>&copy; <?= date('Y') ?> <?= e(APP_NAME) ?> - JS Sistemas Inteligentes</small>
     </footer>
 

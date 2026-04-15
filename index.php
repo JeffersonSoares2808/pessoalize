@@ -14,7 +14,7 @@ $action = $_GET['action'] ?? 'index';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
 // Módulos permitidos
-$allowedModules = ['auth', 'dashboard', 'funcionarios', 'curriculos', 'selecao', 'financeiro'];
+$allowedModules = ['auth', 'dashboard', 'funcionarios', 'curriculos', 'selecao', 'financeiro', 'notificacoes', 'relatorios'];
 
 // Verificar autenticação (exceto para login)
 if ($module !== 'auth' && !isLoggedIn()) {
