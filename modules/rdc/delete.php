@@ -9,7 +9,7 @@ try {
     $db->fetch("SELECT 1 FROM rdc_normas LIMIT 1");
 } catch (Exception $e) {
     setFlash('error', 'As tabelas do módulo RDC ainda não foram criadas. Execute o script database.sql.');
-    redirect('index.php?module=rdc');
+    redirect('index.php?module=dashboard');
 }
 
 if ($id) {

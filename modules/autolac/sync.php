@@ -15,7 +15,7 @@ try {
     $db->fetch("SELECT 1 FROM autolac_config LIMIT 1");
 } catch (Exception $e) {
     setFlash('error', 'As tabelas do módulo Autolac ainda não foram criadas. Execute o script database.sql.');
-    redirect('index.php?module=autolac');
+    redirect('index.php?module=dashboard');
 }
 
 $config = $db->fetch("SELECT * FROM autolac_config WHERE ativo = 1 ORDER BY id DESC LIMIT 1");
