@@ -1,7 +1,8 @@
 <?php
 /**
  * Pessoalize - Assistente IA
- * Integração com API OpenAI-compatível
+ * Integração com API Groq (gratuita, compatível com OpenAI)
+ * Crie sua chave grátis em: https://console.groq.com/keys
  */
 
 require_once __DIR__ . '/../config/config.php';
@@ -20,7 +21,7 @@ class AIHelper {
             return [
                 'success' => false,
                 'resposta' => '',
-                'error' => 'Chave da API de IA não configurada. Configure AI_API_KEY no config.php ou via variável de ambiente OPENAI_API_KEY.'
+                'error' => 'Chave da API de IA não configurada. Crie sua chave grátis em https://console.groq.com/keys e configure GROQ_API_KEY no config.php ou via variável de ambiente.'
             ];
         }
 

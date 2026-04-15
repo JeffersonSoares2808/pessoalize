@@ -35,11 +35,12 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Configurações da IA (OpenAI-compatível)
-// Defina sua chave de API aqui ou via variável de ambiente
-define('AI_API_KEY', getenv('OPENAI_API_KEY') ?: '');
-define('AI_API_URL', getenv('OPENAI_API_URL') ?: 'https://api.openai.com/v1/chat/completions');
-define('AI_MODEL', getenv('OPENAI_MODEL') ?: 'gpt-3.5-turbo');
+// Configurações da IA (Groq - API gratuita, compatível com OpenAI)
+// Crie sua chave grátis em: https://console.groq.com/keys
+// Defina via variável de ambiente ou diretamente aqui
+define('AI_API_KEY', getenv('GROQ_API_KEY') ?: (getenv('OPENAI_API_KEY') ?: ''));
+define('AI_API_URL', getenv('GROQ_API_URL') ?: (getenv('OPENAI_API_URL') ?: 'https://api.groq.com/openai/v1/chat/completions'));
+define('AI_MODEL', getenv('GROQ_MODEL') ?: (getenv('OPENAI_MODEL') ?: 'llama-3.3-70b-versatile'));
 define('AI_MAX_TOKENS', 1024);
 define('AI_TEMPERATURE', 0.7);
 
