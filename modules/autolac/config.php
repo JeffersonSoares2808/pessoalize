@@ -92,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['acao'] ?? '') === 'salvar'
         'campo_cliente' => trim($_POST['campo_cliente'] ?? 'cliente'),
         'campo_status' => trim($_POST['campo_status'] ?? 'status'),
         'campo_documento' => trim($_POST['campo_documento'] ?? 'numero_documento'),
+        'data_inicio_integracao' => $_POST['data_inicio_integracao'] ?: date('Y-m-d'),
         'ativo' => 1,
     ];
 
@@ -198,6 +199,21 @@ $c = $config ?? [];
                         </div>
                     </div>
 
+                    <h6 class="fw-bold text-muted mb-3"><i class="bi bi-calendar-check"></i> Data de Início da Integração</h6>
+                    <p class="text-muted" style="font-size:0.85rem">Somente pagamentos com data <strong>a partir desta data</strong> serão importados. Pagamentos anteriores serão ignorados para não bagunçar o financeiro.</p>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label class="form-label">Importar a partir de *</label>
+                            <input type="date" name="data_inicio_integracao" class="form-control" value="<?= e($c['data_inicio_integracao'] ?? date('Y-m-d')) ?>" required>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="alert alert-info mb-0 mt-4 py-2">
+                                <small><i class="bi bi-info-circle"></i> Por padrão, usa a data de hoje. Pagamentos do Autolac com data anterior a esta serão ignorados na sincronização.</small>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="d-flex justify-content-between">
                         <button type="button" class="btn btn-outline-info" onclick="testarConexao()">
                             <i class="bi bi-plug"></i> Testar Conexão
@@ -265,6 +281,7 @@ $c = $config ?? [];
                     <tr><td class="text-muted">Host:</td><td><?= e($c['db_host'] ?? '') ?>:<?= e($c['db_port'] ?? '') ?></td></tr>
                     <tr><td class="text-muted">Banco:</td><td><?= e($c['db_name'] ?? '') ?></td></tr>
                     <tr><td class="text-muted">Tabela:</td><td><?= e($c['tabela_pagamentos'] ?? '') ?></td></tr>
+                    <tr><td class="text-muted">Integrar desde:</td><td><?= !empty($c['data_inicio_integracao']) ? date('d/m/Y', strtotime($c['data_inicio_integracao'])) : 'Não definido' ?></td></tr>
                     <tr><td class="text-muted">Última sync:</td><td><?= $c['ultima_sincronizacao'] ? date('d/m/Y H:i', strtotime($c['ultima_sincronizacao'])) : 'Nunca' ?></td></tr>
                 </table>
             </div>

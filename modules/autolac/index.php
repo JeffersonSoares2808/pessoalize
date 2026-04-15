@@ -283,6 +283,10 @@ $ultimosLogs = $db->fetchAll(
                     <small>Tabela</small>
                     <small class="fw-bold"><?= e($config['tabela_pagamentos'] ?? '') ?></small>
                 </div>
+                <div class="d-flex justify-content-between py-1 border-top">
+                    <small>Integrar desde</small>
+                    <small class="fw-bold"><?= !empty($config['data_inicio_integracao']) ? date('d/m/Y', strtotime($config['data_inicio_integracao'])) : 'Todas' ?></small>
+                </div>
             </div>
         </div>
 

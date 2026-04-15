@@ -464,6 +464,7 @@ CREATE TABLE IF NOT EXISTS autolac_config (
     campo_status VARCHAR(100) DEFAULT 'status',
     campo_documento VARCHAR(100) DEFAULT 'numero_documento',
     ultima_sincronizacao DATETIME,
+    data_inicio_integracao DATE DEFAULT NULL COMMENT 'Importar apenas pagamentos a partir desta data',
     ativo TINYINT(1) DEFAULT 1,
     criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
     atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
