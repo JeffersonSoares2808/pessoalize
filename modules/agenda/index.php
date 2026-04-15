@@ -55,6 +55,8 @@ $totalHoje = $db->count('lembretes', "status = 'pendente' AND data_lembrete = ?"
 $totalAtrasados = $db->count('lembretes', "status = 'pendente' AND data_lembrete < ?", [$hoje]);
 $totalConcluidos = $db->count('lembretes', "status = 'concluido'");
 
+$recorrenciaLabels = ['nenhuma' => '-', 'diaria' => 'Diária', 'semanal' => 'Semanal', 'mensal' => 'Mensal', 'anual' => 'Anual'];
+
 $prioridadeLabels = [
     'baixa' => ['label' => 'Baixa', 'color' => 'secondary'],
     'media' => ['label' => 'Média', 'color' => 'info'],
@@ -223,10 +225,8 @@ $tipoLabels = [
                             </td>
                             <td><span class="badge bg-<?= $prio['color'] ?>"><?= $prio['label'] ?></span></td>
                             <td>
-                                <?php
-                                $recorrenciaLabels = ['nenhuma' => '-', 'diaria' => 'Diária', 'semanal' => 'Semanal', 'mensal' => 'Mensal', 'anual' => 'Anual'];
-                                echo $recorrenciaLabels[$lem['recorrencia']] ?? '-';
-                                ?>
+                                <?= $recorrenciaLabels[$lem['recorrencia']] ?? '-' ?>
+                                <?= $recorrenciaLabels[$lem['recorrencia']] ?? '-' ?>
                             </td>
                             <td>
                                 <?php if ($lem['funcionario_nome']): ?>

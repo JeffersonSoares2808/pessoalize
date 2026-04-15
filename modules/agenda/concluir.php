@@ -15,7 +15,7 @@ if (!$lembrete) {
 try {
     $db->update('lembretes', ['status' => 'concluido'], 'id = ?', [$id]);
 
-    // If recurring, create the next occurrence
+    // Se recorrente, criar próxima ocorrência
     if ($lembrete['recorrencia'] !== 'nenhuma') {
         $nextDate = $lembrete['data_lembrete'];
         switch ($lembrete['recorrencia']) {

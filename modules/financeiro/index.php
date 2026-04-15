@@ -64,7 +64,7 @@ try {
     $totalReceber = 0;
     $totalPago = 0;
     $totalRecebido = 0;
-    setFlash('error', 'Erro ao carregar dados financeiros. Verifique se a tabela "contas" e "categorias_financeiras" existem no banco de dados.');
+    setFlash('error', 'Erro ao carregar dados financeiros. Tente novamente ou entre em contato com o suporte.');
 }
 ?>
 
