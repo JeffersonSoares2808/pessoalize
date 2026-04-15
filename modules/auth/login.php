@@ -113,8 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script>
     function togglePassword() {
-        var input = document.getElementById('loginSenha');
-        var icon = document.getElementById('pwIcon');
+        const input = document.getElementById('loginSenha');
+        const icon = document.getElementById('pwIcon');
         if (input.type === 'password') {
             input.type = 'text';
             icon.className = 'bi bi-eye-slash-fill';
