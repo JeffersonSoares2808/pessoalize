@@ -171,7 +171,7 @@ $notifRecentes = $notifCount > 0 ? NotificationDispatcher::getNotificacoesNaoLid
                 <?php endif; ?>
             </span>
             <span class="toast-body"><?= e($flash['message']) ?></span>
-            <button class="toast-close" onclick="closeFlashToast()" title="Fechar">&times;</button>
+            <button class="toast-close" onclick="closeFlashToast()" title="Fechar" aria-label="Close">&times;</button>
             <div class="toast-progress"></div>
         </div>
     </div>
