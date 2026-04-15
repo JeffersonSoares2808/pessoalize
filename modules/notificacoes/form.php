@@ -16,7 +16,6 @@ if ($id) {
 }
 
 // Funcionários que ainda não possuem contato de notificação (exceto o que está sendo editado)
-$excludeCondition = $isEdit ? " AND f.id != {$contato['funcionario_id']}" : "";
 $funcionarios = $db->fetchAll(
     "SELECT f.id, f.nome, f.celular, f.cargo
      FROM funcionarios f
