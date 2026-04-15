@@ -10,6 +10,14 @@ if (!isAdmin()) {
     redirect('index.php?module=autolac');
 }
 
+// Verificar se as tabelas existem
+try {
+    $db->fetch("SELECT 1 FROM autolac_config LIMIT 1");
+} catch (Exception $e) {
+    setFlash('error', 'As tabelas do módulo Autolac ainda não foram criadas. Execute o script database.sql.');
+    redirect('index.php?module=dashboard');
+}
+
 $config = $db->fetch("SELECT * FROM autolac_config WHERE ativo = 1 ORDER BY id DESC LIMIT 1");
 
 if (!$config || empty($config['db_name'])) {
@@ -65,10 +73,20 @@ try {
     $ultimoImportado = $db->fetch("SELECT MAX(autolac_id) as ultimo FROM autolac_pagamentos");
     $ultimoId = $ultimoImportado['ultimo'] ?? '0';
 
+    // Data de início da integração — ignora pagamentos anteriores a esta data
+    $dataInicioIntegracao = $config['data_inicio_integracao'] ?? null;
+
     // Query: buscar apenas os campos mapeados da tabela de pagamentos
-    $sql = "SELECT id, {$campoValor}, {$campoData}, {$campoDesc}, {$campoCliente}, {$campoStatus}, {$campoDoc} FROM {$tabela} ORDER BY id ASC";
-    $stmt = $autolacPdo->prepare($sql);
-    $stmt->execute();
+    // Filtrar por data de integração se configurada
+    if ($dataInicioIntegracao && !empty($campoData)) {
+        $sql = "SELECT id, {$campoValor}, {$campoData}, {$campoDesc}, {$campoCliente}, {$campoStatus}, {$campoDoc} FROM {$tabela} WHERE {$campoData} >= ? ORDER BY id ASC";
+        $stmt = $autolacPdo->prepare($sql);
+        $stmt->execute([$dataInicioIntegracao]);
+    } else {
+        $sql = "SELECT id, {$campoValor}, {$campoData}, {$campoDesc}, {$campoCliente}, {$campoStatus}, {$campoDoc} FROM {$tabela} ORDER BY id ASC";
+        $stmt = $autolacPdo->prepare($sql);
+        $stmt->execute();
+    }
     $registros = $stmt->fetchAll();
 
     $encontrados = count($registros);
@@ -96,6 +114,12 @@ try {
         if ($dataPag && !preg_match('/^\d{4}-\d{2}-\d{2}/', $dataPag)) {
             $parsed = strtotime($dataPag);
             $dataPag = $parsed !== false ? date('Y-m-d', $parsed) : null;
+        }
+
+        // Filtro adicional: ignorar pagamentos anteriores à data de início da integração
+        if ($dataInicioIntegracao && $dataPag && $dataPag < $dataInicioIntegracao) {
+            $ignorados++;
+            continue;
         }
 
         $db->insert('autolac_pagamentos', [

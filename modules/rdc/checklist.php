@@ -4,6 +4,14 @@
  */
 $db = Database::getInstance();
 
+// Verificar se as tabelas existem
+try {
+    $db->fetch("SELECT 1 FROM rdc_normas LIMIT 1");
+} catch (Exception $e) {
+    setFlash('error', 'As tabelas do módulo RDC ainda não foram criadas. Execute o script database.sql.');
+    redirect('index.php?module=dashboard');
+}
+
 if (!$id) redirect('index.php?module=rdc');
 
 $norma = $db->fetch("SELECT * FROM rdc_normas WHERE id = ?", [$id]);

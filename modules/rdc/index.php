@@ -4,6 +4,32 @@
  */
 $db = Database::getInstance();
 
+try {
+    // Verificar se as tabelas RDC existem
+    $db->fetch("SELECT 1 FROM rdc_normas LIMIT 1");
+} catch (Exception $e) {
+    ?>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold mb-0"><i class="bi bi-shield-check"></i> Conformidade RDC / Normas</h4>
+    </div>
+    <div class="card">
+        <div class="card-body text-center py-5">
+            <i class="bi bi-database-exclamation" style="font-size:3rem;opacity:0.3;color:var(--warning)"></i>
+            <h5 class="mt-3">Módulo RDC não configurado</h5>
+            <p class="text-muted">
+                As tabelas do módulo RDC ainda não foram criadas no banco de dados.<br>
+                Execute o script <code>database.sql</code> para criar as tabelas necessárias
+                (<code>rdc_normas</code>, <code>rdc_itens_conformidade</code>, <code>rdc_verificacoes</code>).
+            </p>
+            <a href="index.php?module=dashboard" class="btn btn-pessoalize">
+                <i class="bi bi-arrow-left"></i> Voltar ao Dashboard
+            </a>
+        </div>
+    </div>
+    <?php
+    return;
+}
+
 $page = max(1, (int)($_GET['page'] ?? 1));
 $perPage = 15;
 $offset = ($page - 1) * $perPage;
