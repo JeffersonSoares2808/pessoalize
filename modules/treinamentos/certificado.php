@@ -75,7 +75,7 @@ $result = uploadFile($file, $uploadDir, ALLOWED_CERT_TYPES);
 
 if ($result['success']) {
     try {
-        $nomeOriginal = mb_substr($file['name'], 0, 255);
+        $nomeOriginal = mb_strcut($file['name'], 0, 200);
         $db->update('treinamento_participantes', [
             'certificado_arquivo' => $result['filename'],
             'certificado_nome_original' => $nomeOriginal,

@@ -39,7 +39,8 @@ $downloadName = $participante['certificado_nome_original'] ?: $participante['cer
 
 // Servir arquivo
 header('Content-Type: application/octet-stream');
-header('Content-Disposition: attachment; filename="' . basename($downloadName) . '"');
+$safeFilename = rawurlencode(basename($downloadName));
+header("Content-Disposition: attachment; filename*=UTF-8''{$safeFilename}");
 header('Content-Length: ' . filesize($realPath));
 header('Cache-Control: no-cache, must-revalidate');
 header('Pragma: no-cache');
