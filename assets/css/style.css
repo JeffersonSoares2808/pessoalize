@@ -1,0 +1,160 @@
+/* Pessoalize - Estilos */
+
+:root {
+    --cor-primaria: #2bb5a0;
+    --cor-primaria-escura: #1f9485;
+    --cor-secundaria: #8b7ec8;
+    --cor-texto: #2d3436;
+    --cor-fundo: #f5f6fa;
+}
+
+body {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.bg-pessoalize {
+    background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-primaria-escura) 100%);
+}
+
+.navbar-brand { font-size: 1.3rem; }
+
+/* Cards Dashboard */
+.card-dash {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.card-dash:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+.card-dash .card-body { padding: 1.5rem; }
+.card-dash .icon-big { font-size: 2.5rem; opacity: 0.7; }
+.card-dash .card-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #636e72;
+    margin-bottom: 0.3rem;
+}
+.card-dash .card-value { font-size: 1.8rem; font-weight: 700; }
+
+/* Login */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-secundaria) 100%);
+}
+.login-card {
+    max-width: 420px;
+    width: 100%;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+.login-card .card-body { padding: 2.5rem; }
+.login-logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Tabelas */
+.table th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #636e72;
+    border-bottom: 2px solid #dfe6e9;
+}
+.table td { vertical-align: middle; }
+
+/* Badges */
+.badge-ativo { background-color: #00b894; }
+.badge-inativo { background-color: #d63031; }
+.badge-ferias { background-color: #0984e3; }
+.badge-afastado { background-color: #636e72; }
+.badge-pendente { background-color: #fdcb6e; color: #2d3436; }
+.badge-pago { background-color: #00b894; }
+.badge-vencido { background-color: #d63031; }
+.badge-cancelado { background-color: #636e72; }
+.badge-aberta { background-color: #0984e3; }
+.badge-em_selecao { background-color: #6c5ce7; }
+.badge-fechada { background-color: #636e72; }
+.badge-recebido { background-color: #74b9ff; }
+.badge-em_analise { background-color: #fdcb6e; color: #2d3436; }
+.badge-aprovado { background-color: #00b894; }
+.badge-reprovado { background-color: #d63031; }
+.badge-contratado { background-color: #6c5ce7; }
+.badge-inscrito { background-color: #74b9ff; }
+.badge-entrevista { background-color: #a29bfe; }
+
+/* Botões */
+.btn-pessoalize {
+    background-color: var(--cor-primaria);
+    border-color: var(--cor-primaria);
+    color: #fff;
+}
+.btn-pessoalize:hover {
+    background-color: var(--cor-primaria-escura);
+    border-color: var(--cor-primaria-escura);
+    color: #fff;
+}
+
+/* Cards gerais */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+/* Formulários */
+.form-label {
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: #636e72;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 0.2rem rgba(43, 181, 160, 0.15);
+}
+
+/* Financeiro */
+.finance-summary {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.finance-summary .summary-item {
+    flex: 1;
+    min-width: 150px;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+}
+.finance-summary .summary-item.receitas {
+    background-color: rgba(0, 184, 148, 0.1);
+    border: 1px solid rgba(0, 184, 148, 0.3);
+}
+.finance-summary .summary-item.despesas {
+    background-color: rgba(214, 48, 49, 0.1);
+    border: 1px solid rgba(214, 48, 49, 0.3);
+}
+.finance-summary .summary-item.saldo {
+    background-color: rgba(9, 132, 227, 0.1);
+    border: 1px solid rgba(9, 132, 227, 0.3);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .card-dash .card-value { font-size: 1.4rem; }
+    .table-responsive { font-size: 0.85rem; }
+    .container-fluid { padding-left: 0.5rem; padding-right: 0.5rem; }
+}
