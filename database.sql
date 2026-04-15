@@ -218,6 +218,16 @@ CREATE TABLE IF NOT EXISTS treinamento_participantes (
     UNIQUE KEY unique_participante (treinamento_id, funcionario_id)
 ) ENGINE=InnoDB;
 
+-- Tabela de logs da IA
+CREATE TABLE IF NOT EXISTS ia_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT,
+    pergunta TEXT NOT NULL,
+    resposta TEXT,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
 -- Dados iniciais
 
 -- Usuário admin padrão (senha: admin123)

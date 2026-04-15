@@ -35,6 +35,14 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Configurações da IA (OpenAI-compatível)
+// Defina sua chave de API aqui ou via variável de ambiente
+define('AI_API_KEY', getenv('OPENAI_API_KEY') ?: '');
+define('AI_API_URL', getenv('OPENAI_API_URL') ?: 'https://api.openai.com/v1/chat/completions');
+define('AI_MODEL', getenv('OPENAI_MODEL') ?: 'gpt-3.5-turbo');
+define('AI_MAX_TOKENS', 1024);
+define('AI_TEMPERATURE', 0.7);
+
 // Reportar erros apenas em desenvolvimento
 // Em produção na Hostinger, altere para 0
 error_reporting(E_ALL);

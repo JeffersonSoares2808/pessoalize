@@ -14,7 +14,7 @@ $action = $_GET['action'] ?? 'index';
 $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
 
 // Módulos permitidos
-$allowedModules = ['auth', 'dashboard', 'funcionarios', 'curriculos', 'selecao', 'financeiro', 'notificacoes', 'relatorios', 'treinamentos'];
+$allowedModules = ['auth', 'dashboard', 'funcionarios', 'curriculos', 'selecao', 'financeiro', 'notificacoes', 'relatorios', 'treinamentos', 'ia'];
 
 // Verificar autenticação (exceto para login)
 if ($module !== 'auth' && !isLoggedIn()) {
@@ -31,9 +31,14 @@ if (in_array($module, $allowedModules)) {
     $modulePath = __DIR__ . "/modules/{$module}/{$action}.php";
     if (file_exists($modulePath)) {
         if ($module !== 'auth' && empty($_GET['ajax'])) {
-            include TEMPLATES_PATH . 'header.php';
-            include $modulePath;
-            include TEMPLATES_PATH . 'footer.php';
+            // IA ask endpoint returns JSON directly
+            if ($module === 'ia' && $action === 'ask') {
+                include $modulePath;
+            } else {
+                include TEMPLATES_PATH . 'header.php';
+                include $modulePath;
+                include TEMPLATES_PATH . 'footer.php';
+            }
         } else {
             include $modulePath;
         }
