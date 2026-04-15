@@ -178,9 +178,8 @@ class AIHelper {
      */
     private static function sanitizarEntrada($texto) {
         $texto = trim($texto);
-        // Remove possíveis CPFs
+        // Remove possíveis CPFs (formato XXX.XXX.XXX-XX)
         $texto = preg_replace('/\b\d{3}\.\d{3}\.\d{3}-\d{2}\b/', '[CPF_REMOVIDO]', $texto);
-        $texto = preg_replace('/\b\d{11}\b/', '[DOC_REMOVIDO]', $texto);
         return $texto;
     }
 

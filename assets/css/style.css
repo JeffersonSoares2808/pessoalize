@@ -139,7 +139,7 @@ a:hover { color: var(--primary-dark); }
     width: 36px; height: 36px;
     max-width: 36px; max-height: 36px;
     flex-shrink: 0;
-    filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.3));
+    filter: brightness(1.2) drop-shadow(0 2px 8px rgba(99, 102, 241, 0.3));
     transition: transform 0.3s ease;
 }
 

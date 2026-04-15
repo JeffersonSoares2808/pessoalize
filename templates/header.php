@@ -15,11 +15,11 @@
             <a class="navbar-brand" href="index.php?module=dashboard">
                 <svg class="navbar-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="36" height="36" fill="none">
                     <defs>
-                        <linearGradient id="nlg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="100%" style="stop-color:#8b5cf6"/></linearGradient>
-                        <linearGradient id="nlg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#818cf8"/><stop offset="100%" style="stop-color:#a78bfa"/></linearGradient>
+                        <linearGradient id="navbar-lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#6366f1"/><stop offset="100%" style="stop-color:#8b5cf6"/></linearGradient>
+                        <linearGradient id="navbar-lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#818cf8"/><stop offset="100%" style="stop-color:#a78bfa"/></linearGradient>
                     </defs>
-                    <rect x="20" y="20" width="160" height="160" rx="40" fill="url(#nlg1)"/>
-                    <rect x="35" y="35" width="130" height="130" rx="30" fill="url(#nlg2)" opacity="0.3"/>
+                    <rect x="20" y="20" width="160" height="160" rx="40" fill="url(#navbar-lg1)"/>
+                    <rect x="35" y="35" width="130" height="130" rx="30" fill="url(#navbar-lg2)" opacity="0.3"/>
                     <circle cx="100" cy="72" r="22" fill="white"/>
                     <path d="M60 135 C60 108 80 95 100 95 C120 95 140 108 140 135" fill="white"/>
                     <circle cx="145" cy="55" r="8" fill="white" opacity="0.4"/>

@@ -49,9 +49,10 @@ $contexto = AIHelper::gerarContextoSistema();
 // Enviar para IA
 $resultado = AIHelper::perguntar($pergunta, $contexto);
 
-// Salvar log
-$resposta = $resultado['success'] ? $resultado['resposta'] : ('Erro: ' . $resultado['error']);
-AIHelper::salvarLog($pergunta, $resposta, $_SESSION['user_id'] ?? null);
+// Salvar log somente em caso de sucesso
+if ($resultado['success']) {
+    AIHelper::salvarLog($pergunta, $resultado['resposta'], $_SESSION['user_id'] ?? null);
+}
 
 // Responder
 echo json_encode([
