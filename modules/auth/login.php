@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_nome'] = $user['nome'];
                 $_SESSION['user_email'] = $user['email'];
                 $_SESSION['user_cargo'] = $user['cargo'];
+                $_SESSION['last_activity'] = time();
                 redirect('index.php?module=dashboard');
             } else {
                 $error = 'E-mail ou senha incorretos.';
@@ -61,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="card-body">
                 <!-- Logo -->
                 <div class="login-logo-wrapper">
-                    <svg class="login-logo-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="80" height="88" fill="none">
+                    <svg class="login-logo-img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" width="90" height="99" fill="none">
                         <defs>
                             <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#3DBBA0"/><stop offset="100%" style="stop-color:#2A9D8F"/></linearGradient>
                             <linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#9B8EC4"/><stop offset="100%" style="stop-color:#7B6FA0"/></linearGradient>
@@ -82,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <h1 class="login-title"><?= e(APP_NAME) ?></h1>
                 <p class="login-subtitle">Sistema de Gestão de Departamento Pessoal</p>
+                <p class="login-brand-tag">by JS SISTEMAS INTELIGENTES</p>
 
                 <?php if ($error): ?>
                     <div class="alert alert-danger login-alert">

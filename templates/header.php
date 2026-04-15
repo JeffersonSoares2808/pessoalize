@@ -94,6 +94,13 @@ $notifRecentes = $notifCount > 0 ? NotificationDispatcher::getNotificacoesNaoLid
                             <i class="bi bi-robot"></i> IA
                         </a>
                     </li>
+                    <?php if (isAdmin()): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= ($module ?? '') === 'usuarios' ? 'active' : '' ?>" href="index.php?module=usuarios">
+                            <i class="bi bi-people-fill"></i> Usuários
+                        </a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
                 <ul class="navbar-nav align-items-center gap-2">
                     <li class="nav-item dropdown">

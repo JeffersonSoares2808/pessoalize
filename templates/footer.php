@@ -50,7 +50,90 @@
         <small>&copy; <?= date('Y') ?> <?= e(APP_NAME) ?> - JS Sistemas Inteligentes</small>
     </footer>
 
+    <!-- Session timeout modal -->
+    <div class="modal fade" id="sessionTimeoutModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-body text-center py-4">
+                    <i class="bi bi-clock-history" style="font-size:2.5rem;color:var(--warning)"></i>
+                    <h6 class="mt-3 fw-bold">Sessão Expirando</h6>
+                    <p class="text-muted mb-3">Sua sessão expirará em <strong id="timeoutCountdown">60</strong> segundos por inatividade.</p>
+                    <button class="btn btn-pessoalize btn-sm" onclick="resetSessionTimer()">
+                        <i class="bi bi-arrow-clockwise"></i> Continuar Conectado
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/app.js"></script>
+
+    <!-- Session timeout script (15 min) -->
+    <script>
+    (function() {
+        var SESSION_TIMEOUT = <?= defined('SESSION_TIMEOUT') ? SESSION_TIMEOUT : 900 ?>;
+        var WARNING_BEFORE = 60; // mostrar aviso 60s antes
+        var timeoutTimer, warningTimer, countdownInterval;
+        var modal;
+
+        function initModal() {
+            var el = document.getElementById('sessionTimeoutModal');
+            if (el) modal = new bootstrap.Modal(el);
+        }
+
+        function startTimers() {
+            clearTimeout(timeoutTimer);
+            clearTimeout(warningTimer);
+            clearInterval(countdownInterval);
+
+            // Timer de aviso (1 minuto antes)
+            warningTimer = setTimeout(function() {
+                showWarning();
+            }, (SESSION_TIMEOUT - WARNING_BEFORE) * 1000);
+
+            // Timer de logout
+            timeoutTimer = setTimeout(function() {
+                window.location.href = 'index.php?module=auth&action=logout';
+            }, SESSION_TIMEOUT * 1000);
+        }
+
+        function showWarning() {
+            if (!modal) initModal();
+            if (modal) modal.show();
+            var remaining = WARNING_BEFORE;
+            var countdownEl = document.getElementById('timeoutCountdown');
+            countdownInterval = setInterval(function() {
+                remaining--;
+                if (countdownEl) countdownEl.textContent = remaining;
+                if (remaining <= 0) clearInterval(countdownInterval);
+            }, 1000);
+        }
+
+        window.resetSessionTimer = function() {
+            if (modal) modal.hide();
+            clearInterval(countdownInterval);
+            startTimers();
+            // Ping servidor para atualizar last_activity
+            fetch('index.php?module=dashboard&ajax=1', { method: 'HEAD' }).catch(function(){});
+        };
+
+        // Reiniciar timers com atividade do usuário
+        var events = ['mousedown', 'keydown', 'scroll', 'touchstart'];
+        var lastReset = Date.now();
+        events.forEach(function(evt) {
+            document.addEventListener(evt, function() {
+                // Só resetar se passou pelo menos 30s desde o último reset (evitar excesso)
+                if (Date.now() - lastReset > 30000) {
+                    lastReset = Date.now();
+                    startTimers();
+                }
+            }, { passive: true });
+        });
+
+        initModal();
+        startTimers();
+    })();
+    </script>
 </body>
 </html>
