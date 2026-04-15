@@ -156,7 +156,7 @@ function uploadFile($file, $directory, $allowedTypes = []) {
         return ['success' => false, 'message' => 'Tipo de arquivo não permitido.'];
     }
 
-    $filename = uniqid() . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file['name']);
+    $filename = bin2hex(random_bytes(16)) . '_' . preg_replace('/[^a-zA-Z0-9._-]/', '', $file['name']);
     $destination = $directory . $filename;
 
     if (!is_dir($directory)) {

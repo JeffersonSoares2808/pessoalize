@@ -15,4 +15,5 @@ if ($caId) {
     }
 }
 
-redirect("index.php?module=selecao&action=view&id={$id}");
+$safeId = (int)$id;
+redirect("index.php?module=selecao&action=view&id={$safeId}");
