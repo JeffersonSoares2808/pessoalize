@@ -241,6 +241,28 @@ CREATE TABLE IF NOT EXISTS notificacoes_sistema (
     criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
+-- Tabela de lembretes / agenda de avisos
+CREATE TABLE IF NOT EXISTS lembretes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(200) NOT NULL,
+    descricao TEXT,
+    tipo ENUM('servico','pagamento','reuniao','prazo','outro') NOT NULL DEFAULT 'outro',
+    data_lembrete DATE NOT NULL,
+    hora_lembrete TIME,
+    recorrencia ENUM('nenhuma','diaria','semanal','mensal','anual') DEFAULT 'nenhuma',
+    prioridade ENUM('baixa','media','alta','urgente') DEFAULT 'media',
+    status ENUM('pendente','concluido','cancelado') DEFAULT 'pendente',
+    funcionario_id INT,
+    conta_id INT,
+    observacoes TEXT,
+    criado_por INT,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+    atualizado_em DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id) ON DELETE SET NULL,
+    FOREIGN KEY (conta_id) REFERENCES contas(id) ON DELETE SET NULL,
+    FOREIGN KEY (criado_por) REFERENCES usuarios(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
 -- Dados iniciais
 
 -- Usuário admin padrão (senha: admin123)

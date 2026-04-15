@@ -34,28 +34,38 @@ if ($mesFilter) {
     $params[] = $mesFilter;
 }
 
-// Atualizar contas vencidas automaticamente
-$db->query("UPDATE contas SET status = 'vencido' WHERE status = 'pendente' AND data_vencimento < CURDATE()");
+try {
+    // Atualizar contas vencidas automaticamente
+    $db->query("UPDATE contas SET status = 'vencido' WHERE status = 'pendente' AND data_vencimento < CURDATE()");
 
-$total = $db->fetch("SELECT COUNT(*) as total FROM contas c WHERE {$where}", $params)['total'];
-$contas = $db->fetchAll(
-    "SELECT c.*, cat.nome as categoria_nome FROM contas c
-     LEFT JOIN categorias_financeiras cat ON c.categoria_id = cat.id
-     WHERE {$where} ORDER BY c.data_vencimento ASC LIMIT {$perPage} OFFSET {$offset}",
-    $params
-);
+    $total = $db->fetch("SELECT COUNT(*) as total FROM contas c WHERE {$where}", $params)['total'];
+    $contas = $db->fetchAll(
+        "SELECT c.*, cat.nome as categoria_nome FROM contas c
+         LEFT JOIN categorias_financeiras cat ON c.categoria_id = cat.id
+         WHERE {$where} ORDER BY c.data_vencimento ASC LIMIT {$perPage} OFFSET {$offset}",
+        $params
+    );
 
-// Resumo
-$resumoParams = [];
-$resumoWhere = '1=1';
-if ($mesFilter) {
-    $resumoWhere .= " AND DATE_FORMAT(data_vencimento, '%Y-%m') = ?";
-    $resumoParams[] = $mesFilter;
+    // Resumo
+    $resumoParams = [];
+    $resumoWhere = '1=1';
+    if ($mesFilter) {
+        $resumoWhere .= " AND DATE_FORMAT(data_vencimento, '%Y-%m') = ?";
+        $resumoParams[] = $mesFilter;
+    }
+    $totalPagar = $db->fetch("SELECT COALESCE(SUM(valor), 0) as v FROM contas WHERE tipo = 'pagar' AND status != 'cancelado' AND {$resumoWhere}", $resumoParams)['v'];
+    $totalReceber = $db->fetch("SELECT COALESCE(SUM(valor), 0) as v FROM contas WHERE tipo = 'receber' AND status != 'cancelado' AND {$resumoWhere}", $resumoParams)['v'];
+    $totalPago = $db->fetch("SELECT COALESCE(SUM(valor_pago), 0) as v FROM contas WHERE tipo = 'pagar' AND status = 'pago' AND {$resumoWhere}", $resumoParams)['v'];
+    $totalRecebido = $db->fetch("SELECT COALESCE(SUM(valor_pago), 0) as v FROM contas WHERE tipo = 'receber' AND status = 'pago' AND {$resumoWhere}", $resumoParams)['v'];
+} catch (Exception $e) {
+    $total = 0;
+    $contas = [];
+    $totalPagar = 0;
+    $totalReceber = 0;
+    $totalPago = 0;
+    $totalRecebido = 0;
+    setFlash('error', 'Erro ao carregar dados financeiros. Tente novamente ou entre em contato com o suporte.');
 }
-$totalPagar = $db->fetch("SELECT COALESCE(SUM(valor), 0) as v FROM contas WHERE tipo = 'pagar' AND status != 'cancelado' AND {$resumoWhere}", $resumoParams)['v'];
-$totalReceber = $db->fetch("SELECT COALESCE(SUM(valor), 0) as v FROM contas WHERE tipo = 'receber' AND status != 'cancelado' AND {$resumoWhere}", $resumoParams)['v'];
-$totalPago = $db->fetch("SELECT COALESCE(SUM(valor_pago), 0) as v FROM contas WHERE tipo = 'pagar' AND status = 'pago' AND {$resumoWhere}", $resumoParams)['v'];
-$totalRecebido = $db->fetch("SELECT COALESCE(SUM(valor_pago), 0) as v FROM contas WHERE tipo = 'receber' AND status = 'pago' AND {$resumoWhere}", $resumoParams)['v'];
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -132,6 +142,9 @@ $totalRecebido = $db->fetch("SELECT COALESCE(SUM(valor_pago), 0) as v FROM conta
             </div>
             <div class="col-md-2">
                 <input type="month" name="mes" class="form-control form-control-sm" value="<?= e($mesFilter) ?>">
+            </div>
+            <div class="col-md-1">
+                <a href="index.php?module=financeiro&search=<?= urlencode($search) ?>&tipo=<?= urlencode($tipoFilter) ?>&status=<?= urlencode($statusFilter) ?>&mes=" class="btn btn-outline-info btn-sm w-100" title="Mostrar todos os meses"><i class="bi bi-calendar3"></i></a>
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-outline-secondary btn-sm w-100"><i class="bi bi-search"></i> Filtrar</button>

@@ -15,6 +15,7 @@ define('DB_CHARSET', 'utf8mb4');
 define('APP_NAME', 'Pessoalize');
 define('APP_VERSION', '1.0.0');
 define('APP_URL', 'http://localhost/pessoalize');
+define('SESSION_TIMEOUT', 15 * 60); // 15 minutos em segundos
 
 // Caminhos
 define('BASE_PATH', dirname(__DIR__) . '/');

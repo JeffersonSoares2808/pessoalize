@@ -25,6 +25,7 @@ class NotificationDispatcher {
             'aniversarios' => 0,
             'rh' => 0,
             'treinamentos' => 0,
+            'lembretes' => 0,
             'total' => 0,
             'erros' => [],
         ];
@@ -53,8 +54,14 @@ class NotificationDispatcher {
             $resumo['erros'][] = 'Treinamentos: ' . $e->getMessage();
         }
 
+        try {
+            $resumo['lembretes'] = $this->verificarLembretes();
+        } catch (Exception $e) {
+            $resumo['erros'][] = 'Lembretes: ' . $e->getMessage();
+        }
+
         $resumo['total'] = $resumo['vencimentos'] + $resumo['aniversarios']
-                         + $resumo['rh'] + $resumo['treinamentos'];
+                         + $resumo['rh'] + $resumo['treinamentos'] + $resumo['lembretes'];
 
         return $resumo;
     }
@@ -352,6 +359,53 @@ class NotificationDispatcher {
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    /**
+     * Verifica lembretes da agenda pendentes para hoje e atrasados
+     */
+    private function verificarLembretes() {
+        $count = 0;
+
+        // Lembretes para hoje
+        $lembretesHoje = $this->db->fetchAll(
+            "SELECT id, titulo, descricao, tipo, data_lembrete, hora_lembrete, prioridade
+             FROM lembretes
+             WHERE status = 'pendente'
+               AND data_lembrete = CURDATE()
+             ORDER BY hora_lembrete ASC"
+        );
+
+        foreach ($lembretesHoje as $lem) {
+            $hora = $lem['hora_lembrete'] ? ' às ' . date('H:i', strtotime($lem['hora_lembrete'])) : '';
+            $titulo = "📋 Lembrete para HOJE";
+            $mensagem = "\"{$lem['titulo']}\" - agendado para hoje{$hora}.";
+            if ($lem['descricao']) {
+                $mensagem .= " " . mb_substr($lem['descricao'], 0, 100);
+            }
+
+            $nivel = $lem['prioridade'] === 'urgente' ? 'danger' : ($lem['prioridade'] === 'alta' ? 'warning' : 'info');
+            $count += $this->criarNotificacao('avisos', $titulo, $mensagem, $nivel, $lem['id'], 'lembretes');
+        }
+
+        // Lembretes atrasados (últimos 7 dias)
+        $lembretesAtrasados = $this->db->fetchAll(
+            "SELECT id, titulo, data_lembrete, prioridade
+             FROM lembretes
+             WHERE status = 'pendente'
+               AND data_lembrete < CURDATE()
+               AND data_lembrete >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+             ORDER BY data_lembrete ASC"
+        );
+
+        foreach ($lembretesAtrasados as $lem) {
+            $titulo = "⚠️ Lembrete ATRASADO";
+            $mensagem = "\"{$lem['titulo']}\" estava agendado para {$this->formatarData($lem['data_lembrete'])} e ainda não foi concluído.";
+
+            $count += $this->criarNotificacao('avisos', $titulo, $mensagem, 'danger', $lem['id'], 'lembretes');
+        }
+
+        return $count;
     }
 
     /**

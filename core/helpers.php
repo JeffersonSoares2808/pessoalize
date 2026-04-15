@@ -42,10 +42,25 @@ function formatCPF($cpf) {
 }
 
 /**
- * Verifica se o usuário está logado
+ * Verifica se o usuário está logado (com timeout de inatividade)
  */
 function isLoggedIn() {
-    return isset($_SESSION['user_id']);
+    if (!isset($_SESSION['user_id'])) {
+        return false;
+    }
+    // Verificar timeout de inatividade
+    if (isset($_SESSION['last_activity'])) {
+        $timeout = defined('SESSION_TIMEOUT') ? SESSION_TIMEOUT : 900;
+        if (time() - $_SESSION['last_activity'] > $timeout) {
+            // Sessão expirada por inatividade
+            $_SESSION = [];
+            session_destroy();
+            return false;
+        }
+    }
+    // Atualizar timestamp de última atividade
+    $_SESSION['last_activity'] = time();
+    return true;
 }
 
 /**
