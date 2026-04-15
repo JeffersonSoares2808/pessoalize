@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS treinamento_participantes (
 
 -- Usuário admin padrão (senha: admin123)
 INSERT INTO usuarios (nome, email, senha, cargo) VALUES
-('Administrador', 'admin@pessoalize.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+('Administrador', 'admin@pessoalize.com', '$2y$10$B8q.hTzgW25wXtfeKyYw1uwVKyzNgzxkiHnVy5JeTn5Sxv21fH0Vy', 'admin');
 
 -- Departamentos iniciais
 INSERT INTO departamentos (nome, descricao) VALUES

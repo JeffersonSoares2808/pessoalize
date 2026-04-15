@@ -13,7 +13,7 @@
     <nav class="navbar navbar-expand-lg navbar-pessoalize">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.php?module=dashboard">
-                <span class="brand-icon"><i class="bi bi-people-fill"></i></span>
+                <img src="assets/img/logo.svg" alt="<?= e(APP_NAME) ?>" class="navbar-logo">
                 <?= e(APP_NAME) ?>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" style="border-color:rgba(255,255,255,0.2)">
