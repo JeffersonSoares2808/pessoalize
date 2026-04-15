@@ -1,4 +1,10 @@
-<?php $user = currentUser(); $flash = getFlash(); ?>
+<?php
+$user = currentUser();
+$flash = getFlash();
+require_once __DIR__ . '/../core/NotificationDispatcher.php';
+$notifCount = NotificationDispatcher::contarNaoLidas();
+$notifRecentes = $notifCount > 0 ? NotificationDispatcher::getNotificacoesNaoLidas(5) : [];
+?>
 <!DOCTYPE html>
 <html lang="pt-BR" data-theme="light">
 <head>
@@ -79,6 +85,43 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav align-items-center gap-2">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link position-relative" href="#" data-bs-toggle="dropdown" title="Notificações">
+                            <i class="bi bi-bell-fill"></i>
+                            <?php if ($notifCount > 0): ?>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:0.6rem">
+                                    <?= $notifCount > 99 ? '99+' : $notifCount ?>
+                                </span>
+                            <?php endif; ?>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" style="width:320px;max-height:400px;overflow-y:auto">
+                            <li><h6 class="dropdown-header">Notificações</h6></li>
+                            <?php if (empty($notifRecentes)): ?>
+                                <li><span class="dropdown-item-text text-muted text-center py-3">
+                                    <i class="bi bi-bell-slash"></i> Nenhuma notificação
+                                </span></li>
+                            <?php else: ?>
+                                <?php foreach ($notifRecentes as $notif): ?>
+                                <li>
+                                    <a class="dropdown-item py-2" href="index.php?module=notificacoes&action=marcar_lida&id=<?= (int)$notif['id'] ?>" style="white-space:normal">
+                                        <div class="d-flex align-items-start gap-2">
+                                            <span class="badge bg-<?= e($notif['nivel']) ?> mt-1" style="font-size:0.5rem">&nbsp;</span>
+                                            <div>
+                                                <strong style="font-size:0.8rem"><?= e($notif['titulo']) ?></strong>
+                                                <small class="d-block text-muted" style="font-size:0.75rem"><?= e(mb_substr($notif['mensagem'], 0, 60)) ?>...</small>
+                                                <small class="text-muted" style="font-size:0.7rem"><?= date('d/m H:i', strtotime($notif['criado_em'])) ?></small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <?php endforeach; ?>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-center text-primary" href="index.php?module=notificacoes&action=disparar">
+                                    <small>Ver todas as notificações</small>
+                                </a></li>
+                            <?php endif; ?>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema" id="themeToggle">
                             <i class="bi bi-moon-stars-fill"></i>
