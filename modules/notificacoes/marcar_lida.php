@@ -4,8 +4,8 @@
  */
 require_once __DIR__ . '/../../core/NotificationDispatcher.php';
 
-if ($id) {
-    NotificationDispatcher::marcarComoLida($id);
+if ($id && is_numeric($id)) {
+    NotificationDispatcher::marcarComoLida((int)$id);
 }
 
 redirect('index.php?module=notificacoes&action=disparar');

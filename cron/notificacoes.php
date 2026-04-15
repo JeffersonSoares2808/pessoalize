@@ -17,9 +17,9 @@ if (!$isCli) {
     $expectedToken = getenv('CRON_TOKEN') ?: '';
     $providedToken = $_GET['token'] ?? '';
 
-    if (empty($expectedToken) || !hash_equals($expectedToken, $providedToken)) {
+    if (empty($expectedToken) || empty($providedToken) || !hash_equals($expectedToken, $providedToken)) {
         http_response_code(403);
-        echo json_encode(['error' => 'Acesso negado. Token inválido.']);
+        echo json_encode(['error' => 'Acesso negado. Token inválido ou não configurado.']);
         exit;
     }
 

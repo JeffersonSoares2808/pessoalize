@@ -118,15 +118,15 @@ class NotificationDispatcher {
     private function verificarAniversarios() {
         $count = 0;
 
+        // Use DATE_ADD to correctly handle month boundaries
         $funcionarios = $this->db->fetchAll(
             "SELECT id, nome, data_nascimento, departamento_id
              FROM funcionarios
              WHERE status = 'ativo'
                AND data_nascimento IS NOT NULL
-               AND (
-                   (MONTH(data_nascimento) = MONTH(CURDATE()) AND DAY(data_nascimento) BETWEEN DAY(CURDATE()) AND DAY(CURDATE()) + 3)
-                   OR (MONTH(data_nascimento) = MONTH(DATE_ADD(CURDATE(), INTERVAL 3 DAY)) AND DAY(data_nascimento) <= DAY(DATE_ADD(CURDATE(), INTERVAL 3 DAY)))
-               )"
+               AND DATE_FORMAT(data_nascimento, '%m-%d')
+                   BETWEEN DATE_FORMAT(CURDATE(), '%m-%d')
+                       AND DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL 3 DAY), '%m-%d')"
         );
 
         foreach ($funcionarios as $func) {

@@ -103,7 +103,7 @@ $notifRecentes = $notifCount > 0 ? NotificationDispatcher::getNotificacoesNaoLid
                             <?php else: ?>
                                 <?php foreach ($notifRecentes as $notif): ?>
                                 <li>
-                                    <a class="dropdown-item py-2" href="index.php?module=notificacoes&action=marcar_lida&id=<?= $notif['id'] ?>" style="white-space:normal">
+                                    <a class="dropdown-item py-2" href="index.php?module=notificacoes&action=marcar_lida&id=<?= (int)$notif['id'] ?>" style="white-space:normal">
                                         <div class="d-flex align-items-start gap-2">
                                             <span class="badge bg-<?= e($notif['nivel']) ?> mt-1" style="font-size:0.5rem">&nbsp;</span>
                                             <div>
