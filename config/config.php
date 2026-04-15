@@ -24,6 +24,8 @@ define('TEMPLATES_PATH', BASE_PATH . 'templates/');
 // Configurações de Upload
 define('MAX_UPLOAD_SIZE', 5 * 1024 * 1024); // 5MB
 define('ALLOWED_CV_TYPES', ['pdf', 'doc', 'docx']);
+define('ALLOWED_CERT_TYPES', ['pdf', 'jpg', 'jpeg', 'png']);
+define('MAX_CERT_UPLOAD_SIZE', 2 * 1024 * 1024); // 2MB para certificados
 
 // Timezone
 date_default_timezone_set('America/Sao_Paulo');
