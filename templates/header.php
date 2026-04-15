@@ -80,6 +80,16 @@ $notifRecentes = $notifCount > 0 ? NotificationDispatcher::getNotificacoesNaoLid
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link <?= ($module ?? '') === 'rdc' ? 'active' : '' ?>" href="index.php?module=rdc">
+                            <i class="bi bi-shield-check"></i> RDC
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= ($module ?? '') === 'autolac' ? 'active' : '' ?>" href="index.php?module=autolac">
+                            <i class="bi bi-database-fill-gear"></i> Autolac
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link <?= ($module ?? '') === 'notificacoes' ? 'active' : '' ?>" href="index.php?module=notificacoes">
                             <i class="bi bi-bell-fill"></i> Notificações
                         </a>
