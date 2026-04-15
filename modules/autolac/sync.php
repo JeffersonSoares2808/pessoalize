@@ -10,6 +10,14 @@ if (!isAdmin()) {
     redirect('index.php?module=autolac');
 }
 
+// Verificar se as tabelas existem
+try {
+    $db->fetch("SELECT 1 FROM autolac_config LIMIT 1");
+} catch (Exception $e) {
+    setFlash('error', 'As tabelas do módulo Autolac ainda não foram criadas. Execute o script database.sql.');
+    redirect('index.php?module=autolac');
+}
+
 $config = $db->fetch("SELECT * FROM autolac_config WHERE ativo = 1 ORDER BY id DESC LIMIT 1");
 
 if (!$config || empty($config['db_name'])) {

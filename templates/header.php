@@ -156,8 +156,8 @@ $notifRecentes = $notifCount > 0 ? NotificationDispatcher::getNotificacoesNaoLid
                         </button>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle"></i> <?= e($user['nome']) ?>
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" title="<?= e($user['nome']) ?>">
+                            <i class="bi bi-person-circle"></i> <span class="user-name"><?= e($user['nome']) ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="index.php?module=auth&action=logout"><i class="bi bi-box-arrow-right me-2"></i> Sair</a></li>
